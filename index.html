@@ -1,0 +1,505 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+    content="NeRF-Casting Supplement">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NeRF-Casting Supplement</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  <script src="./static/js/video_comparison.js" defer></script>
+</head>
+
+<body>
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+
+            <h1 class="title is-1 publication-title">NeRF-Casting: Improved View-Dependent Appearance with Consistent Reflections</h1>
+            <div class="is-size-5 publication-authors">
+<!--
+              <span class="author-block">
+                Anonymous Authors</span>
+-->
+            </div>
+
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <!-- PDF Link. -->
+                <span class="link-block">
+                  <a href="" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                    </span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="" class="external-link button is-normal is-rounded is-dark" title="Code">
+                    <span class="icon">
+                        <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code and data [coming soon]</span>
+                    </a>
+                </span>
+
+                <!--
+                <span class="link-block">
+                  <a class="external-link button is-normal is-rounded is-dark" title="Coming soon!" disabled>
+                    <span class="icon">
+                        <i class="far fa-images"></i>
+                    </span>
+                    <span>Data</span>
+                    </a>
+                  </span> -->
+    
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container is-max-desktop">
+        <video id="v3" width="100%" playsinline controls autoplay loop muted>
+            <source src="static/videos/teaser.mp4" type="video/mp4" />
+        </video>
+    </div>
+  </section>
+    
+    
+  <section class="section">
+  <section class="section">
+    <div class="container is-max-desktop">
+      <!-- Abstract. -->
+      <h2 class="title is-3">Abstract</h2>
+      <div class="content has-text-justified">
+          <p>
+              Neural Radiance Fields (NeRFs) typically struggle to reconstruct and render highly specular objects, whose appearance varies quickly with changes in viewpoint. Recent works have improved NeRF's ability to render detailed specular appearance of distant environment illumination, but are unable to synthesize consistent reflections of closer content. Moreover, these techniques rely on large computationally-expensive neural networks to model outgoing radiance, which severely limits optimization and rendering speed.
+          </p>
+          <p>
+              We address these issues with an approach based on ray tracing: instead of querying an expensive neural network for the outgoing view-dependent radiance at points along each camera ray, our model casts reflection rays from these points and traces them through the NeRF representation to render feature vectors which are decoded into color using a small inexpensive network. We demonstrate that our model outperforms prior methods for view synthesis of scenes containing shiny objects, and that it is the only existing NeRF method that can synthesize photorealistic specular appearance and reflections in real-world scenes, while requiring comparable optimization time to current state-of-the-art view synthesis models.
+          </p>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-4">Results and comparisons</h2>
+      <p>
+        Here we display side-by-side videos comparing our method to top-performing baselines across multiple real-world scenes.
+        Select a scene and a baseline method below:
+      </p>
+      <br>
+      <div class="tabs-widget">
+        <div class="tabs is-centered">
+          <ul class="is-marginless">
+            <li><a>hatchback</a></li>
+            <li><a>toaster</a></li>
+            <li><a>sedan</a></li>
+            <li><a>spheres</a></li>
+            <li><a>compact</a></li>
+            <li><a>grinder</a></li>
+            <li><a>bonsai</a></li>
+            <li><a>garden</a></li>
+          </ul>
+        </div>
+        <div class="content has-text-centered is-size-7-mobile">
+          Interactive visualization. Hover or tap to move the split.
+        </div>
+        <div class="tabs-content">
+          <!-- Begin mazda. -->
+          <div>
+            <div class="tabs-widget">
+              <div class="tabs is-centered is-toggle is-toggle-rounded is-small">
+                <ul class="is-marginless">
+                  <li><a>Zip-NeRF vs. Ours</a></li>
+                  <li><a>UniSDF vs. Ours</a></li>
+                  <li><a>Zip+Ref-NeRF vs. Ours</a></li>
+                </ul>
+              </div>
+              <div class="tabs-content">
+                Notice how our method synthesizes accurate reflections of the houses and plants that smoothly move over the car's surface, 
+                while baseline methods produce fuzzy reflections that fade in and out depending on the viewpoint.
+                <div class="video-comparison" data-label="Zip-NeRF" data-label2="Ours">
+                  <video class="video" width=100% loop playsinline muted
+                    src="./static/videos/zipnerf_mazda_ours_mazda_30fps.mp4"></video>
+                  <canvas></canvas>
+                </div>
+                <div class="video-comparison" data-label="UniSDF" data-label2="Ours">
+                  <video class="video" width=100% loop playsinline muted
+                    src="./static/videos/unisdf_mazda_ours_mazda_30fps.mp4"></video>
+                  <canvas></canvas>
+                </div>
+                <div class="video-comparison" data-label="Zip+Ref-NeRF" data-label2="Ours">
+                  <video class="video" width=100% loop playsinline muted
+                    src="./static/videos/refnerf_mazda_ours_mazda_30fps.mp4"></video>
+                  <canvas></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End mazda. -->
+          <!-- Begin toaster. -->
+          <div>
+            <div class="tabs-widget">
+              <div class="tabs is-centered is-toggle is-toggle-rounded is-small">
+                <ul class="is-marginless">
+                  <li><a>Zip-NeRF vs. Ours</a></li>
+                  <li><a>UniSDF vs. Ours</a></li>
+                  <li><a>Zip+Ref-NeRF  vs. Ours</a></li>
+                </ul>
+              </div>
+              <div class="tabs-content">
+                Our method renders convincing reflections of the distant scene beyond the windows as well as the nearby paintings and bowl.
+                <div class="video-comparison" data-label="Zip-NeRF" data-label2="Ours">
+                  <video class="video" width=100% loop playsinline autoplay muted
+                    src="./static/videos/zipnerf_toaster_ours_toaster_30fps.mp4"></video>
+                  <canvas></canvas>
+                </div>
+                <div class="video-comparison" data-label="UniSDF" data-label2="Ours">
+                  <video class="video" width=100% loop playsinline autoplay muted
+                    src="./static/videos/unisdf_toaster_ours_toaster_30fps.mp4"></video>
+                  <canvas></canvas>
+                </div>
+                <div class="video-comparison" data-label="Zip+Ref-NeRF" data-label2="Ours">
+                  <video class="video" width=100% loop playsinline autoplay muted
+                    src="./static/videos/refnerf_toaster_ours_toaster_30fps.mp4"></video>
+                  <canvas></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End toaster. -->
+          <!-- Begin sedan. -->
+          <div>
+            <div class="tabs-widget">
+              <div class="tabs is-centered is-toggle is-toggle-rounded is-small">
+                <ul class="is-marginless">
+                  <li><a>Zip-NeRF vs. Ours</a></li>
+                  <li><a>UniSDF vs. Ours</a></li>
+                  <li><a>Zip+Ref-NeRF vs. Ours</a></li>
+                </ul>
+              </div>
+              <div class="tabs-content">
+                Our method is even able to render convincing reflections of the tree and lamppost, which are never directly viewed by the observed images.
+                <div class="video-comparison" data-label="Zip-NeRF" data-label2="Ours">
+                  <video class="video" width=100% loop playsinline muted
+                    src="./static/videos/zipnerf_sedan_ours_sedan_30fps.mp4"></video>
+                  <canvas></canvas>
+                </div>
+                <div class="video-comparison" data-label="UniSDF" data-label2="Ours">
+                  <video class="video" width=100% loop playsinline muted
+                    src="./static/videos/unisdf_sedan_ours_sedan_30fps.mp4"></video>
+                  <canvas></canvas>
+                </div>
+                <div class="video-comparison" data-label="Zip+Ref-NeRF" data-label2="Ours">
+                  <video class="video" width=100% loop playsinline muted
+                    src="./static/videos/refnerf_sedan_ours_sedan_30fps.mp4"></video>
+                  <canvas></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End sedan. -->
+          <!-- Begin gardenspheres. -->
+          <div>
+            <div class="tabs-widget">
+              <div class="tabs is-centered is-toggle is-toggle-rounded is-small">
+                <ul class="is-marginless">
+                  <li><a>Zip-NeRF vs. Ours</a></li>
+                  <li><a>UniSDF vs. Ours</a></li>
+                  <li><a>Zip+Ref-NeRF  vs. Ours</a></li>
+                  <li><a>ENVIDR  vs. Ours</a></li>
+                </ul>
+              </div>
+              <div class="tabs-content">
+                Our method synthesizes reflections with more high-frequency details, and is able to render convincing reflections
+                of near-field content. Notice the accurate interreflections of the shiny spheres and statue head.
+                <div class="video-comparison" data-label="Zip-NeRF" data-label2="Ours">
+                  <video class="video" width=100% loop playsinline autoplay muted
+                    src="./static/videos/zipnerf_gardenspheres_ours_gardenspheres_30fps.mp4"></video>
+                  <canvas></canvas>
+                </div>
+                <div class="video-comparison" data-label="UniSDF" data-label2="Ours">
+                  <video class="video" width=100% loop playsinline autoplay muted
+                    src="./static/videos/unisdf_gardenspheres_ours_gardenspheres_30fps.mp4"></video>
+                  <canvas></canvas>
+                </div>
+                <div class="video-comparison" data-label="Zip+Ref-NeRF" data-label2="Ours">
+                  <video class="video" width=100% loop playsinline autoplay muted
+                    src="./static/videos/refnerf_gardenspheres_ours_gardenspheres_30fps.mp4"></video>
+                  <canvas></canvas>
+                </div>
+                <div class="video-comparison" data-label="ENVIDR" data-label2="Ours">
+                  <video class="video" width=100% loop playsinline autoplay muted
+                    src="./static/videos/envidr_gardenspheres_ours_gardenspheres_30fps.mp4"></video>
+                  <canvas></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End gardenspheres. -->
+          <!-- Begin mini. -->
+          <div>
+            <div class="tabs-widget">
+              <div class="tabs is-centered is-toggle is-toggle-rounded is-small">
+                <ul class="is-marginless">
+                  <li><a>Zip-NeRF vs. Ours</a></li>
+                  <li><a>UniSDF vs. Ours</a></li>
+                  <li><a>Zip+Ref-NeRF  vs. Ours</a></li>
+                </ul>
+              </div>
+              <div class="tabs-content">
+                Although semi-transparent but reflective surfaces (such as windows) can be challenging for our method, 
+                it is able to simulate convincing reflections across the body and windshield of the car.
+                <div class="video-comparison" data-label="Zip-NeRF" data-label2="Ours">
+                  <video class="video" width=100% loop playsinline autoplay muted
+                    src="./static/videos/zipnerf_mini_ours_mini.mp4"></video>
+                  <canvas></canvas>
+                </div>
+                <div class="video-comparison" data-label="UniSDF" data-label2="Ours">
+                  <video class="video" width=100% loop playsinline autoplay muted
+                    src="./static/videos/unisdf_mini_ours_mini.mp4"></video>
+                  <canvas></canvas>
+                </div>
+                <div class="video-comparison" data-label="Zip+Ref-NeRF" data-label2="Ours">
+                  <video class="video" width=100% loop playsinline autoplay muted
+                    src="./static/videos/refnerf_mini_ours_mini.mp4"></video>
+                  <canvas></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End mini. -->
+          <!-- Begin niche. -->
+          <div>
+            <div class="tabs-widget">
+              <div class="tabs is-centered is-toggle is-toggle-rounded is-small">
+                <ul class="is-marginless">
+                  <li><a>Zip-NeRF vs. Ours</a></li>
+                  <li><a>UniSDF vs. Ours</a></li>
+                  <li><a>Zip+Ref-NeRF  vs. Ours</a></li>
+                </ul>
+              </div>
+              <div class="tabs-content">
+                Notice how our method renders specularities that are consistent across views and smoothly move over the black reflective
+                surface instead of fading in and out depending on the viewpoint.
+                <div class="video-comparison" data-label="Zip-NeRF" data-label2="Ours">
+                  <video class="video" width=100% loop playsinline autoplay muted
+                    src="./static/videos/zipnerf_niche_ours_niche.mp4"></video>
+                  <canvas></canvas>
+                </div>
+                <div class="video-comparison" data-label="UniSDF" data-label2="Ours">
+                  <video class="video" width=100% loop playsinline autoplay muted
+                    src="./static/videos/unisdf_niche_ours_niche.mp4"></video>
+                  <canvas></canvas>
+                </div>
+                <div class="video-comparison" data-label="Zip+Ref-NeRF" data-label2="Ours">
+                  <video class="video" width=100% loop playsinline autoplay muted
+                    src="./static/videos/refnerf_niche_ours_niche.mp4"></video>
+                  <canvas></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End niche. -->
+
+          <!-- Begin officebonsai. -->
+          <div>
+            <div class="tabs-widget">
+              <div class="tabs is-centered is-toggle is-toggle-rounded is-small">
+                <ul class="is-marginless">
+                  <li><a>Zip-NeRF vs. Ours</a></li>
+                  <li><a>UniSDF vs. Ours</a></li>
+                  <li><a>Zip+Ref-NeRF  vs. Ours</a></li>
+                </ul>
+              </div>
+              <div class="tabs-content">
+                In this relatively diffuse scene without significant view-dependant appearance, 
+                our method's rendered views are on par with Zip-NeRF's, and noticeably better than other baselines.
+                <div class="video-comparison" data-label="Zip-NeRF" data-label2="Ours">
+                  <video class="video" width=100% loop playsinline autoplay muted
+                    src="./static/videos/zipnerf_officebonsai_ours_officebonsai_30fps.mp4"></video>
+                  <canvas></canvas>
+                </div>
+                <div class="video-comparison" data-label="UniSDF" data-label2="Ours">
+                  <video class="video" width=100% loop playsinline autoplay muted
+                    src="./static/videos/unisdf_officebonsai_ours_officebonsai_30fps.mp4"></video>
+                  <canvas></canvas>
+                </div>
+                <div class="video-comparison" data-label="Zip+Ref-NeRF" data-label2="Ours">
+                  <video class="video" width=100% loop playsinline autoplay muted
+                    src="./static/videos/refnerf_officebonsai_ours_officebonsai_30fps.mp4"></video>
+                  <canvas></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End officebonsai. -->
+          <!-- Begin gardenvase. -->
+          <div>
+            <div class="tabs-widget">
+              <div class="tabs is-centered is-toggle is-toggle-rounded is-small">
+                <ul class="is-marginless">
+                  <li><a>Zip-NeRF vs. Ours</a></li>
+                  <li><a>UniSDF vs. Ours</a></li>
+                  <li><a>Zip+Ref-NeRF  vs. Ours</a></li>
+                </ul>
+              </div>
+              <div class="tabs-content">
+                In this relatively diffuse scene without significant view-dependant appearance, 
+                our method's rendered views are on par with Zip-NeRF's, and noticeably better than other baselines.
+                <div class="video-comparison" data-label="Zip-NeRF" data-label2="Ours">
+                  <video class="video" width=100% loop playsinline autoplay muted
+                    src="./static/videos/zipnerf_gardenvase_ours_gardenvase_30fps.mp4"></video>
+                  <canvas></canvas>
+                </div>
+                <div class="video-comparison" data-label="UniSDF" data-label2="Ours">
+                  <video class="video" width=100% loop playsinline autoplay muted
+                    src="./static/videos/unisdf_gardenvase_ours_gardenvase_30fps.mp4"></video>
+                  <canvas></canvas>
+                </div>
+                <div class="video-comparison" data-label="Zip+Ref-NeRF" data-label2="Ours">
+                  <video class="video" width=100% loop playsinline autoplay muted
+                    src="./static/videos/refnerf_gardenvase_ours_gardenvase_30fps.mp4"></video>
+                  <canvas></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End gardenvase. -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-4">Ablation study</h2>
+      <p>
+        Here we display side-by-side videos comparing our full method to versions of our method where key components have been ablated.
+        Select an ablation below:
+      </p>
+      <br>  
+      <div class="tabs-widget">
+        <div class="tabs is-centered is-toggle is-toggle-rounded is-small">
+          <ul class="is-marginless">
+            <li><a>single reflection ray</a></li>
+            <li><a>3D Jacobian</a></li>
+            <li><a>w/o downweighting</a></li>
+            <li><a>w/o near-field reflections</a></li>
+          </ul>
+        </div>
+        <div class="content has-text-centered is-size-7-mobile">
+          Interactive visualization. Hover or tap to move the split.
+        </div>
+        <div class="tabs-content">
+          <!-- Begin. -->
+            Using only a single reflection ray, using Zip-NeRF's 3D Jacobian instead of our 2D directional Jacobian, or omitting downweighting all cause aliasing
+            in the rendered reflections. This prevents optimization from effectively reconstructing accurate scene geometry and reflected content, resulting
+            in blurred reflections with jagged aliasing artifacts. Omitting our method's tracing of nearby scene content significantly degrades the renderings 
+            of near-field reflections, such as the reflections of the statue and ground tiles on the reflective spheres.
+            <div class="video-comparison" data-label="single reflection ray" data-label2="Ours">
+              <video class="video" width=100% loop playsinline muted
+                src="./static/videos/spheres_ablate_single_ray_30fps.mp4"></video>
+              <canvas></canvas>
+            </div>
+            <div class="video-comparison" data-label="3D Jacobian" data-label2="Ours">
+              <video class="video" width=100% loop playsinline muted
+                src="./static/videos/spheres_ablate_3d_jac_30fps.mp4"></video>
+              <canvas></canvas>
+            </div>
+            <div class="video-comparison" data-label="w/o downweighting" data-label2="Ours">
+              <video class="video" width=100% loop playsinline muted
+                src="./static/videos/spheres_ablate_downweighting_30fps.mp4"></video>
+              <canvas></canvas>
+            </div>
+            <div class="video-comparison" data-label="w/o near-field reflections" data-label2="Ours">
+              <video class="video" width=100% loop playsinline muted
+                src="./static/videos/spheres_ablate_near_30fps.mp4"></video>
+              <canvas></canvas>
+            </div>
+          <!-- End. -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-4">Synthetic results</h2>
+      <p>
+        While we focus on large-scale real world scenes, our method still performs well on simpler synthetic datasets.
+      </p>
+
+      <div class="tabs-widget">
+        <div class="tabs is-centered">
+          <ul class="is-marginless">
+          </ul>
+        </div>
+        <div class="tabs-content">
+          <div>
+            <div class="tabs-widget">
+              <div class="tabs-content">
+                  <video class="video" width=100% loop playsinline muted
+                    src="./static/videos/synthetic_concat.mp4"></video>
+                  <canvas></canvas> 
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+                This webpage is based on the project page for <a href="https://camp-nerf.github.io">CamP</a>. The video comparison tool is from the <a
+                href="https://dorverbin.github.io/refnerf/index.html">Ref-NeRF</a> project.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+      
+      
+</body>
+
+</html>
