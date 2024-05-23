@@ -96,9 +96,12 @@
   </section>
   <section class="section">
     <div class="container is-max-desktop">
-        <video id="v3" width="100%" playsinline controls autoplay loop muted>
+        <video id="teaser" width="100%" playsinline controls autoplay loop muted>
             <source src="static/videos/teaser.mp4" type="video/mp4" />
         </video>
+<script>
+    document.getElementById('teaser').play();
+</script>
     </div>
   </section>
     
@@ -122,7 +125,7 @@
     <div class="container is-max-desktop">
       <h2 class="title is-4">Results and comparisons</h2>
       <p>
-        Here we display side-by-side videos comparing our method to top-performing baselines across multiple real-world scenes.
+        Here we display side-by-side videos comparing our method to top-performing baselines across different captured scenes. <br><br>
         Select a scene and a baseline method below:
       </p>
       <br>
@@ -413,7 +416,7 @@
     <div class="container is-max-desktop">
       <h2 class="title is-4">Ablation study</h2>
       <p>
-        Here we display side-by-side videos comparing our full method to versions of our method where key components have been ablated.
+        Here we display side-by-side videos comparing our full method to versions of our method where key components have been ablated. See more details in the paper. <br><br>
         Select an ablation below:
       </p>
       <br>  

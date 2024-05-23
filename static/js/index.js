@@ -60,7 +60,7 @@ $(document).ready(function () {
     tabsWidget = new TabsWidget(containerElement);
   });
 
-  playPauseVideo();
+  //playPauseVideo();
 });
 
 
